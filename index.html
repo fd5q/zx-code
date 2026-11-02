@@ -1,0 +1,448 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#080d0a">
+<title>ZX CODE | Script Hub</title>
+
+<style>
+:root {
+  --green:#39ff82;
+  --dark:#080d0a;
+  --card:#101a13;
+  --border:#1e422b;
+  --text:#eaffef;
+  --muted:#91a397;
+}
+*{box-sizing:border-box}
+body {
+  margin:0;
+  background:var(--dark);
+  color:var(--text);
+  font-family:Arial,sans-serif;
+}
+header {
+  position:sticky;top:0;z-index:5;
+  background:#080d0aee;
+  backdrop-filter:blur(15px);
+  border-bottom:1px solid var(--border);
+  padding:17px 6%;
+  display:flex;justify-content:space-between;align-items:center;
+}
+.logo {
+  font-size:27px;font-weight:900;
+  color:var(--green);
+  letter-spacing:2px;
+  text-shadow:0 0 18px #39ff8266;
+}
+header span {color:var(--muted);font-size:12px}
+.hero {
+  text-align:center;
+  padding:85px 20px 55px;
+  background:radial-gradient(ellipse at center,#16432666,transparent 65%);
+}
+.hero h1 {
+  font-size:clamp(42px,9vw,75px);
+  color:var(--green);
+  margin:0;
+  text-shadow:0 0 30px #39ff8255;
+}
+.hero p {color:var(--muted);letter-spacing:3px}
+.search {
+  width:min(500px,90%);
+  padding:15px;
+  background:#101a13;
+  border:1px solid var(--border);
+  border-radius:12px;
+  color:white;
+  outline:none;
+  margin-top:20px;
+}
+.search:focus {border-color:var(--green)}
+.container {max-width:1100px;margin:auto;padding:20px}
+.section-title {
+  display:flex;justify-content:space-between;
+  align-items:center;margin:30px 0 20px;
+}
+.section-title h2 {color:var(--green)}
+.count {color:var(--muted);font-size:13px}
+.grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:18px;
+}
+.card {
+  background:linear-gradient(145deg,#142019,#0c130e);
+  border:1px solid var(--border);
+  border-radius:17px;
+  padding:22px;
+  transition:.25s;
+}
+.card:hover {
+  transform:translateY(-5px);
+  border-color:var(--green);
+  box-shadow:0 8px 30px #39ff8215;
+}
+.card h3 {margin:0 0 8px;color:var(--green);font-size:21px}
+.card p {color:var(--muted);font-size:13px}
+.tag {
+  display:inline-block;
+  background:#153c24;
+  color:var(--green);
+  padding:6px 10px;
+  border-radius:20px;
+  font-size:11px;
+  margin-bottom:15px;
+}
+button {
+  border:0;cursor:pointer;
+  padding:12px 15px;border-radius:9px;
+  font-weight:bold;transition:.2s;
+}
+button:hover {filter:brightness(1.15)}
+.primary {
+  background:var(--green);color:#071109;
+  width:100%;
+}
+.secondary {
+  background:#193323;color:var(--green);
+  border:1px solid var(--border);
+}
+.admin-add {
+  margin-top:35px;
+  border:1px dashed #39ff8266;
+  background:#102017;
+  color:var(--green);
+  width:100%;padding:20px;font-size:16px;
+}
+footer {
+  text-align:center;padding:35px;
+  color:var(--muted);font-size:12px;
+  border-top:1px solid var(--border);
+  margin-top:50px;
+}
+.modal {
+  display:none;position:fixed;inset:0;
+  background:#000c;z-index:20;
+  align-items:center;justify-content:center;
+  padding:15px;
+}
+.modal.show {display:flex}
+.modal-box {
+  width:min(600px,100%);
+  max-height:85vh;overflow:auto;
+  background:#101a13;
+  border:1px solid var(--green);
+  border-radius:17px;padding:22px;
+  box-shadow:0 0 40px #39ff8220;
+}
+.modal-head {
+  display:flex;justify-content:space-between;
+  align-items:center;margin-bottom:15px;
+}
+.modal-head h2 {color:var(--green)}
+.close {
+  background:#26332a;color:white;
+  font-size:18px;
+}
+.code {
+  direction:ltr;text-align:left;
+  white-space:pre-wrap;overflow-wrap:anywhere;
+  background:#050906;color:#8bffa9;
+  border:1px solid var(--border);
+  border-radius:10px;padding:17px;
+  font:13px/1.8 monospace;
+  max-height:45vh;overflow:auto;
+}
+.field {
+  width:100%;padding:13px;margin:7px 0 14px;
+  background:#080d0a;color:white;
+  border:1px solid var(--border);
+  border-radius:9px;outline:none;
+}
+.field:focus {border-color:var(--green)}
+.form-label {color:var(--muted);font-size:13px}
+.notice {color:var(--muted);font-size:12px;line-height:1.7}
+.empty {color:var(--muted);text-align:center;padding:30px}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">ZX CODE</div>
+  <span>ULTIMATE SCRIPT HUB</span>
+</header>
+
+<section class="hero">
+  <h1>ZX CODE</h1>
+  <p>YOUR GAMING. YOUR SCRIPTS.</p>
+  <input id="search" class="search"
+    placeholder="ابحث عن سكربت..."
+    oninput="renderScripts()">
+</section>
+
+<main class="container">
+
+  <div class="section-title">
+    <h2>⌘ SCRIPT LIBRARY</h2>
+    <span class="count" id="count">7 SCRIPTS</span>
+  </div>
+
+  <div class="grid" id="scripts"></div>
+
+  <button class="admin-add" onclick="openLogin()">
+    ＋ إضافة سكربت جديد
+  </button>
+
+  <p class="notice">
+    ZX CODE — Gaming Scripts Library
+  </p>
+
+</main>
+
+<footer>
+  © 2026 ZX CODE — ALL RIGHTS RESERVED
+</footer>
+
+<!-- نافذة عرض الكود -->
+<div class="modal" id="codeModal">
+  <div class="modal-box">
+    <div class="modal-head">
+      <h2 id="codeTitle">SCRIPT</h2>
+      <button class="close" onclick="closeModal('codeModal')">✕</button>
+    </div>
+    <pre class="code" id="codeContent"></pre>
+    <button class="primary" onclick="copyCode()">نسخ الكود</button>
+  </div>
+</div>
+
+<!-- تسجيل دخول الإدارة -->
+<div class="modal" id="loginModal">
+  <div class="modal-box">
+    <div class="modal-head">
+      <h2>ADMIN LOGIN</h2>
+      <button class="close" onclick="closeModal('loginModal')">✕</button>
+    </div>
+    <label class="form-label">كلمة المرور</label>
+    <input id="password" type="password"
+      class="field" placeholder="أدخل كلمة المرور">
+    <button class="primary" onclick="login()">دخول الإدارة</button>
+    <p class="notice" id="loginMessage"></p>
+  </div>
+</div>
+
+<!-- إضافة سكربت -->
+<div class="modal" id="addModal">
+  <div class="modal-box">
+    <div class="modal-head">
+      <h2>ADD NEW SCRIPT</h2>
+      <button class="close" onclick="closeModal('addModal')">✕</button>
+    </div>
+    <label class="form-label">اسم السكربت</label>
+    <input id="newName" class="field" placeholder="Script Name">
+
+    <label class="form-label">كود السكربت</label>
+    <textarea id="newCode" class="field"
+      rows="7" placeholder="Paste script code here"></textarea>
+
+    <button class="primary" onclick="addScript()">حفظ السكربت</button>
+    <p class="notice" id="addMessage"></p>
+  </div>
+</div>
+
+<script>
+// ضع رابط Cloudflare Worker هنا بعد إعداده
+const API_BASE = "";
+
+// السكربتات الأصلية
+const scripts = [
+  {
+    name:"VR7",
+    code:'loadstring(game:HttpGet("https://scriptblox.com/raw/Universal-Script-VR7-45290"))()'
+  },
+  {
+    name:"AJJANS",
+    code:'loadstring(game:HttpGet("https://raw.githubusercontent.com/PulseZax/Loader/refs/heads/main/.lua"))()'
+  },
+  {
+    name:"TQ SYSTEM",
+    code:'loadstring(game:HttpGet("https://playful-scripts.lovable.app/api/public/loader/43952173-24f0-4a10-bef3-e346975f03b6"))()'
+  },
+  {
+    name:"Hermanos’Dev | PVP",
+    code:'loadstring(game:HttpGet("https://raw.githubusercontent.com/hermanos-dev/hermanos-hub/refs/heads/main/Loader.lua"))()'
+  },
+  {
+    name:"REDZ HUB V2",
+    code:'loadstring(game:HttpGet("https://raw.githubusercentent.com/UCT-hub/main/refs/heads/main/redz-v2"))'
+  },
+  {
+    name:"X HUB",
+    code:'loadstring(game:HttpGet("https://raw.githubusercontent.com/Au0yX/Community/main/XhubMM2"))()'
+  },
+  {
+    name:"FLY X",
+    code:'loadstring(game:HttpGet("https://scriptblox.com/raw/free-HD-admin-hacker-island-Fly-V3-X-111485"))()'
+  }
+];
+
+let selectedCode = "";
+let authToken = sessionStorage.getItem("zx_admin_token") || "";
+
+function renderScripts() {
+  const query = document.getElementById("search").value.toLowerCase();
+  const area = document.getElementById("scripts");
+
+  const filtered = scripts.filter(s =>
+    s.name.toLowerCase().includes(query)
+  );
+
+  document.getElementById("count").textContent =
+    filtered.length + " SCRIPTS";
+
+  area.replaceChildren();
+
+  if (!filtered.length) {
+    const empty = document.createElement("p");
+    empty.className = "empty";
+    empty.textContent = "لا توجد نتائج";
+    area.appendChild(empty);
+    return;
+  }
+
+  filtered.forEach((script,index) => {
+    const card = document.createElement("div");
+    card.className = "card";
+
+    const tag = document.createElement("span");
+    tag.className = "tag";
+    tag.textContent = "SCRIPT " +
+      String(scripts.indexOf(script)+1).padStart(2,"0");
+
+    const title = document.createElement("h3");
+    title.textContent = script.name;
+
+    const desc = document.createElement("p");
+    desc.textContent = "ZX CODE • Gaming Script";
+
+    const button = document.createElement("button");
+    button.className = "primary";
+    button.textContent = "عرض الكود";
+    button.onclick = () => showCode(script);
+
+    card.append(tag,title,desc,button);
+    area.appendChild(card);
+  });
+}
+
+function showCode(script) {
+  selectedCode = script.code;
+  document.getElementById("codeTitle").textContent = script.name;
+  document.getElementById("codeContent").textContent = script.code;
+  document.getElementById("codeModal").classList.add("show");
+}
+
+async function copyCode() {
+  try {
+    await navigator.clipboard.writeText(selectedCode);
+    alert("تم نسخ الكود بنجاح!");
+  } catch {
+    alert("تعذر النسخ. حدد الكود وانسخه يدويًا.");
+  }
+}
+
+function closeModal(id) {
+  document.getElementById(id).classList.remove("show");
+}
+
+function openLogin() {
+  document.getElementById("loginMessage").textContent = "";
+  document.getElementById("loginModal").classList.add("show");
+}
+
+async function login() {
+  if (!API_BASE) {
+    document.getElementById("loginMessage").textContent =
+      "يجب إعداد Cloudflare Worker أولاً لتفعيل تسجيل الدخول الآمن.";
+    return;
+  }
+
+  const password = document.getElementById("password").value;
+  const message = document.getElementById("loginMessage");
+
+  try {
+    const response = await fetch(API_BASE + "/api/login", {
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({password})
+    });
+
+    const data = await response.json();
+
+    if (!response.ok || !data.token) {
+      message.textContent = data.error || "بيانات الدخول غير صحيحة";
+      return;
+    }
+
+    authToken = data.token;
+    sessionStorage.setItem("zx_admin_token",authToken);
+    document.getElementById("loginModal").classList.remove("show");
+    document.getElementById("addModal").classList.add("show");
+
+  } catch {
+    message.textContent = "تعذر الاتصال بخادم الحماية.";
+  }
+}
+
+async function addScript() {
+  const name = document.getElementById("newName").value.trim();
+  const code = document.getElementById("newCode").value.trim();
+  const message = document.getElementById("addMessage");
+
+  if (!name || !code) {
+    message.textContent = "أدخل الاسم والكود.";
+    return;
+  }
+
+  if (!API_BASE || !authToken) {
+    message.textContent = "جلسة الإدارة غير متاحة.";
+    return;
+  }
+
+  try {
+    const response = await fetch(API_BASE + "/api/scripts", {
+      method:"POST",
+      headers:{
+        "Content-Type":"application/json",
+        "Authorization":"Bearer " + authToken
+      },
+      body:JSON.stringify({name,code})
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      message.textContent = data.error || "فشلت الإضافة.";
+      return;
+    }
+
+    scripts.push({name,code});
+    renderScripts();
+
+    document.getElementById("newName").value = "";
+    document.getElementById("newCode").value = "";
+    message.textContent = "تمت الإضافة بنجاح.";
+
+  } catch {
+    message.textContent = "تعذر الاتصال بالخادم.";
+  }
+}
+
+renderScripts();
+</script>
+
+</body>
+</html>
